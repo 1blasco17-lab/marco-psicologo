@@ -1,0 +1,7 @@
+{
+  "name": "marco-psicologo",
+  "private": true,
+  "dependencies": {
+    "node-ical": "^0.18.0"
+  }
+}
