@@ -353,7 +353,6 @@
       html += '<div class="dia"><h3>' + dia.name + '</h3><div class="horas">';
       slots.forEach(function(s){
         var tags = [];
-        if (modo === 'online' && s.modality === 'online') tags.push('online');
         if (s.biweekly) tags.push('cada 15 días');
         html += '<a class="hora' + (tags.length ? ' tagged' : '') + '" ' +
           'href="' + linkWhatsApp(dia, s.time, modo, s.biweekly) + '" target="_blank" rel="noopener">' +
