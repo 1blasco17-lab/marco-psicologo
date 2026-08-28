@@ -22,6 +22,12 @@ const HOURS = {
 
 const ONLINE_MARKER = /solo\s*_?-?\s*online/i;
 
+// Franjas fijas que se atienden solo por videollamada, por día de semana
+// (0=domingo): pares [desde, hasta) en hora argentina.
+const ONLINE_WINDOWS = {
+  5: [[14, 16]], // viernes 14:00–16:00
+};
+
 function overlaps(aStart, aEnd, bStart, bEnd) {
   return aStart < bEnd && aEnd > bStart;
 }
@@ -133,7 +139,9 @@ module.exports = async (req, res) => {
       const end = start + SESSION_MIN * 60 * 1000;
       if (start < now + MIN_LEAD_MS) continue;
       if (busy.some((b) => overlaps(start, end, b.start, b.end))) continue;
-      const isOnline = onlineOnly.some((o) => overlaps(start, end, o.start, o.end));
+      const isOnline =
+        (ONLINE_WINDOWS[dow] || []).some(([a, b]) => h >= a && h < b) ||
+        onlineOnly.some((o) => overlaps(start, end, o.start, o.end));
       slots.push({
         time: String(h).padStart(2, '0') + ':00',
         modality: isOnline ? 'online' : 'both',
