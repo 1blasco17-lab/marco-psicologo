@@ -39,15 +39,20 @@ function expandEvent(ev, rangeStart, rangeEnd) {
       Object.values(ev.exdate || {}).map((d) => new Date(d).getTime())
     );
     const overridden = new Set(Object.keys(ev.recurrences || {}));
-    // rrule devuelve las repeticiones con la hora corrida según la zona horaria
-    // del servidor o del TZID. Como Argentina no cambia de hora, cada repetición
-    // conserva la hora UTC del primer evento: tomamos la fecha que da rrule y le
-    // fijamos esa hora. (Válido para eventos que no cruzan la medianoche UTC,
-    // es decir, todo el horario de atención.)
+    // rrule devuelve las repeticiones con la hora (y a veces el día) corridos
+    // según la zona horaria del servidor o el TZID del evento. Como Argentina no
+    // cambia de hora, cada repetición real conserva la hora UTC del primer
+    // evento: reconstruimos cada instante con esa hora y elegimos el día
+    // (el de la fecha cruda o sus vecinos) que quede más cerca del valor crudo.
     const refH = ev.start.getUTCHours();
     const refMin = ev.start.getUTCMinutes();
+    const DAY = 24 * 3600 * 1000;
     for (const d of dates) {
-      const start = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), refH, refMin);
+      const base = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), refH, refMin);
+      let start = base;
+      for (const cand of [base - DAY, base + DAY]) {
+        if (Math.abs(cand - d.getTime()) < Math.abs(start - d.getTime())) start = cand;
+      }
       if (exdates.has(start)) continue;
       const dayKey = new Date(start).toISOString().substring(0, 10);
       if (overridden.has(dayKey)) continue; // esta instancia fue movida: usa la versión movida
