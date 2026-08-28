@@ -142,10 +142,10 @@ module.exports = async (req, res) => {
     const slots = [];
     for (let h = hours[0]; h <= hours[1]; h++) {
       const starts = nextDates[dow].map(([y, m, d]) => Date.UTC(y, m, d, h) + AR_OFFSET_MS);
-      const busyAlguna = starts.some((start) =>
-        busy.some((b) => overlaps(start, start + SESSION_MIN * 60 * 1000, b.start, b.end))
-      );
-      if (busyAlguna) continue;
+      const libres = starts.filter(
+        (start) => !busy.some((b) => overlaps(start, start + SESSION_MIN * 60 * 1000, b.start, b.end))
+      ).length;
+      if (libres === 0) continue; // ocupado todas las semanas
       const isOnline =
         (ONLINE_WINDOWS[dow] || []).some(([a, b]) => h >= a && h < b) ||
         starts.some((start) =>
@@ -154,6 +154,8 @@ module.exports = async (req, res) => {
       slots.push({
         time: String(h).padStart(2, '0') + ':00',
         modality: isOnline ? 'online' : 'both',
+        // libre solo semana por medio (p. ej. compromiso quincenal de Marco)
+        biweekly: libres < starts.length,
       });
     }
     days.push({ dow, name: NAMES[dow], slots });
