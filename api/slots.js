@@ -10,7 +10,6 @@ const ical = require('node-ical');
 const AR_OFFSET_MS = 3 * 3600 * 1000;
 const SESSION_MIN = 50;
 const DAYS_AHEAD = 21;
-const MIN_LEAD_MS = 60 * 60 * 1000; // no ofrecer turnos con menos de 1h de aviso
 // Por día de semana (0=domingo): [primer turno, último turno inclusive]
 const HOURS = {
   1: [9, 20], // lunes
@@ -122,38 +121,43 @@ module.exports = async (req, res) => {
     }
   }
 
-  // Recorre los próximos días en hora argentina y arma los turnos libres
-  const days = [];
-  for (let i = 0; i < DAYS_AHEAD; i++) {
+  // Arma una "semana tipo": para cada día hábil, un horario se ofrece solo si
+  // está libre en las próximas OCCURRENCES ocurrencias de ese día. Así los
+  // compromisos recurrentes quincenales bloquean el horario sin importar la
+  // semana en la que caigan.
+  const OCCURRENCES = 2;
+  const NAMES = { 1: 'lunes', 2: 'martes', 3: 'miércoles', 4: 'jueves', 5: 'viernes' };
+  const nextDates = { 1: [], 2: [], 3: [], 4: [], 5: [] }; // dow → próximas fechas [y,m,d]
+  for (let i = 1; nextDates[1].length < OCCURRENCES || nextDates[5].length < OCCURRENCES; i++) {
     const arDay = new Date(now - AR_OFFSET_MS + i * 24 * 3600 * 1000);
-    const y = arDay.getUTCFullYear();
-    const m = arDay.getUTCMonth();
-    const d = arDay.getUTCDate();
     const dow = arDay.getUTCDay();
-    const hours = HOURS[dow];
-    if (!hours) continue;
+    if (nextDates[dow] && nextDates[dow].length < OCCURRENCES) {
+      nextDates[dow].push([arDay.getUTCFullYear(), arDay.getUTCMonth(), arDay.getUTCDate()]);
+    }
+  }
 
+  const days = [];
+  for (let dow = 1; dow <= 5; dow++) {
+    const hours = HOURS[dow];
     const slots = [];
     for (let h = hours[0]; h <= hours[1]; h++) {
-      const start = Date.UTC(y, m, d, h) + AR_OFFSET_MS;
-      const end = start + SESSION_MIN * 60 * 1000;
-      if (start < now + MIN_LEAD_MS) continue;
-      if (busy.some((b) => overlaps(start, end, b.start, b.end))) continue;
+      const starts = nextDates[dow].map(([y, m, d]) => Date.UTC(y, m, d, h) + AR_OFFSET_MS);
+      const busyAlguna = starts.some((start) =>
+        busy.some((b) => overlaps(start, start + SESSION_MIN * 60 * 1000, b.start, b.end))
+      );
+      if (busyAlguna) continue;
       const isOnline =
         (ONLINE_WINDOWS[dow] || []).some(([a, b]) => h >= a && h < b) ||
-        onlineOnly.some((o) => overlaps(start, end, o.start, o.end));
+        starts.some((start) =>
+          onlineOnly.some((o) => overlaps(start, start + SESSION_MIN * 60 * 1000, o.start, o.end))
+        );
       slots.push({
         time: String(h).padStart(2, '0') + ':00',
         modality: isOnline ? 'online' : 'both',
       });
     }
-    if (slots.length) {
-      days.push({
-        date: `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`,
-        slots,
-      });
-    }
+    days.push({ dow, name: NAMES[dow], slots });
   }
 
-  res.status(200).json({ updated: new Date(now).toISOString(), days });
+  res.status(200).json({ updated: new Date(now).toISOString(), weekly: true, days });
 };

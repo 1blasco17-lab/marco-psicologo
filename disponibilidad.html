@@ -272,7 +272,7 @@
     <div class="wrap">
       <span class="eyebrow">Turnos</span>
       <h1>Disponibilidad</h1>
-      <p class="lede">Estos son mis horarios libres de las próximas semanas, actualizados según mi agenda. Elegí la modalidad, tocá el horario que te quede cómodo y se abre WhatsApp con el mensaje listo para reservarlo. Las sesiones duran entre 45 y 50 minutos.</p>
+      <p class="lede">Estos son los horarios semanales que tengo libres, actualizados según mi agenda. Elegí la modalidad, tocá el horario que te quede cómodo y se abre WhatsApp con el mensaje listo para reservarlo. Las sesiones duran entre 45 y 50 minutos.</p>
 
       <div class="tabs" role="tablist">
         <button class="tab active" id="tab-presencial" role="tab" aria-selected="true">Presencial</button>
@@ -303,22 +303,10 @@
     online: document.getElementById('tab-online')
   };
 
-  function fechaLocal(iso){
-    var p = iso.split('-');
-    return new Date(+p[0], +p[1]-1, +p[2]);
-  }
-  function nombreDia(d){
-    return d.toLocaleDateString('es-AR', { weekday:'long' });
-  }
-  function fechaCorta(d){
-    return d.toLocaleDateString('es-AR', { day:'numeric', month:'long' });
-  }
-
   function linkWhatsApp(dia, hora, modalidad){
-    var d = fechaLocal(dia.date);
     var msg = 'Hola Marco! Quiero reservar un turno ' +
       (modalidad === 'online' ? 'online' : 'presencial') +
-      ' el ' + nombreDia(d) + ' ' + fechaCorta(d) + ' a las ' + hora + ' hs.';
+      ' los ' + dia.name + ' a las ' + hora + ' hs.';
     return WA + '?text=' + encodeURIComponent(msg);
   }
 
@@ -340,9 +328,8 @@
       });
       if (!slots.length) return;
       hayAlgo = true;
-      var d = fechaLocal(dia.date);
-      html += '<div class="dia"><h3>' + nombreDia(d) + '</h3>' +
-        '<p class="fecha">' + fechaCorta(d) + '</p><div class="horas">';
+      html += '<div class="dia"><h3>' + dia.name + '</h3>' +
+        '<p class="fecha">Todas las semanas</p><div class="horas">';
       slots.forEach(function(s){
         var soloOnline = s.modality === 'online';
         html += '<a class="hora' + (modo === 'online' && soloOnline ? ' online-badge' : '') + '" ' +
