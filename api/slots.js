@@ -38,10 +38,20 @@ function expandEvent(ev, rangeStart, rangeEnd) {
     const exdates = new Set(
       Object.values(ev.exdate || {}).map((d) => new Date(d).getTime())
     );
+    const overridden = new Set(Object.keys(ev.recurrences || {}));
+    // rrule devuelve las repeticiones con la hora corrida según la zona horaria
+    // del servidor o del TZID. Como Argentina no cambia de hora, cada repetición
+    // conserva la hora UTC del primer evento: tomamos la fecha que da rrule y le
+    // fijamos esa hora. (Válido para eventos que no cruzan la medianoche UTC,
+    // es decir, todo el horario de atención.)
+    const refH = ev.start.getUTCHours();
+    const refMin = ev.start.getUTCMinutes();
     for (const d of dates) {
-      const start = new Date(d);
-      if (exdates.has(start.getTime())) continue;
-      out.push({ start: start.getTime(), end: start.getTime() + durationMs });
+      const start = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), refH, refMin);
+      if (exdates.has(start)) continue;
+      const dayKey = new Date(start).toISOString().substring(0, 10);
+      if (overridden.has(dayKey)) continue; // esta instancia fue movida: usa la versión movida
+      out.push({ start, end: start + durationMs });
     }
     // Instancias modificadas de la serie (movidas de horario)
     for (const rec of Object.values(ev.recurrences || {})) {
