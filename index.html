@@ -538,15 +538,20 @@
   }
 
   footer{
-    padding:44px 0 40px;
+    padding:48px 0 44px;
     background:var(--moss-deep);
     color:var(--mist);
-    text-align:center;
     border-top:1px solid rgba(239,233,220,.12);
+  }
+  .foot-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:36px;
+    align-items:start;
   }
   .foot-name{
     font-family:var(--serif);
-    font-size:21px;
+    font-size:22px;
     color:var(--paper);
     letter-spacing:.01em;
   }
@@ -556,33 +561,33 @@
     letter-spacing:.1em;
     text-transform:uppercase;
     opacity:.7;
-    margin-top:6px;
+    margin-top:8px;
   }
-  .foot-links{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px 26px;
-    margin-top:20px;
-    font-size:14.5px;
+  .foot-tit{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--paper);
+    opacity:.55;
+    margin:0 0 12px;
+    font-weight:400;
   }
-  .foot-links a{
+  .foot-col p{ margin:0 0 6px; font-size:14.5px; line-height:1.55; }
+  .foot-col p:last-child{ margin-bottom:0; }
+  .foot-col .sutil{ opacity:.62; font-size:13.5px; margin-top:10px; }
+  .foot-col a{
+    display:inline-block;
     color:var(--paper);
     text-decoration:none;
+    font-size:14.5px;
     border-bottom:1px solid rgba(239,233,220,.35);
     padding-bottom:2px;
-    transition:border-color .2s ease, opacity .2s ease;
+    margin-bottom:10px;
+    transition:border-color .2s ease;
   }
-  .foot-links a:hover{ border-color:var(--paper); }
-  .foot-links a:focus-visible{ outline:2px solid var(--ochre); outline-offset:3px; }
-  .foot-lugar{
-    font-family:var(--mono);
-    font-size:11.5px;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    opacity:.55;
-    margin-top:22px;
-  }
+  .foot-col a:hover{ border-color:var(--paper); }
+  .foot-col a:focus-visible{ outline:2px solid var(--ochre); outline-offset:3px; }
 
   /* ---------- WhatsApp flotante ---------- */
   .wa-float{
@@ -621,6 +626,7 @@
     .hero{ padding:44px 0 54px; }
     .tl-item{ grid-template-columns:1fr; gap:6px; }
     .dias{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr; gap:28px; }
   }
 </style>
 </head>
@@ -826,14 +832,21 @@
 </main>
 
 <footer>
-  <div class="wrap">
-    <div class="foot-name">Marco Assisa</div>
-    <div class="foot-rol">Lic. en Psicología · UCA</div>
-    <div class="foot-links">
-      <a href="mailto:massisa200@gmail.com">massisa200@gmail.com</a>
-      <a href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a>
+  <div class="wrap foot-grid">
+    <div class="foot-col">
+      <div class="foot-name">Marco Assisa</div>
+      <div class="foot-rol">Lic. en Psicología · UCA</div>
     </div>
-    <div class="foot-lugar">San Fernando, Zona Norte · Buenos Aires</div>
+    <div class="foot-col">
+      <h2 class="foot-tit">Contacto</h2>
+      <a href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a><br>
+      <a href="mailto:massisa200@gmail.com">massisa200@gmail.com</a>
+    </div>
+    <div class="foot-col">
+      <h2 class="foot-tit">Dónde atiendo</h2>
+      <p>San Fernando, Zona Norte<br>Buenos Aires</p>
+      <p class="sutil">También online, por videollamada.</p>
+    </div>
   </div>
 </footer>
 
