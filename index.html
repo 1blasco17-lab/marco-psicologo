@@ -193,8 +193,23 @@
   section{ padding:72px 0; border-top:1px solid var(--line); }
   section:first-child{ border-top:none; }
 
-  /* ---------- Hero ---------- */
-  .hero{ padding:84px 0 76px; }
+  /* ---------- Hero (paleta invertida) ---------- */
+  .hero{
+    padding:84px 0 76px;
+    background:var(--moss-deep);
+    color:var(--paper);
+  }
+  .hero .eyebrow{ color:var(--mist); }
+  .hero .eyebrow::before{ background:var(--mist); }
+  .hero h1{ color:var(--paper); }
+  .hero .role{ color:var(--ochre); }
+  .hero .lede{ opacity:.85; }
+  .hero .btn-solid{ background:var(--paper); color:var(--moss-deep); }
+  .hero .btn-solid:hover{ background:var(--mist); }
+  .hero .btn-outline{ color:var(--paper); border-color:rgba(239,233,220,.5); }
+  .hero .btn-outline:hover{ background:var(--paper); color:var(--moss-deep); }
+  .hero .frame{ border-color:rgba(239,233,220,.28); background:var(--moss); }
+  .hero .ring-outer{ border-color:rgba(239,233,220,.45); }
   .hero-grid{
     display:grid;
     grid-template-columns:1.15fr 0.85fr;
