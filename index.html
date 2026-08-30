@@ -631,7 +631,7 @@
       <a class="nav-link active" href="#inicio" data-vista="inicio">Inicio</a>
       <a class="nav-link" href="#perfil" data-vista="perfil">Mi perfil</a>
       <a class="nav-link" href="#turnos" data-vista="turnos">Turnos</a>
-      <a class="nav-cta" href="#contacto" data-vista="inicio" data-scroll="contacto">Contactame</a>
+      <a class="nav-cta" href="#contacto" data-vista="contacto">Contactame</a>
     </nav>
   </div>
 </header>
@@ -667,22 +667,6 @@
         <span class="eyebrow">El vínculo terapéutico</span>
         <blockquote>Considero que el vínculo terapéutico constituye el punto de partida fundamental de todo proceso de psicoterapia.</blockquote>
         <p class="texto">Por eso, doy especial importancia a construir un espacio basado en la confianza, la escucha y el respeto por la singularidad de cada persona. Desde este vínculo, busco acompañar al paciente en la comprensión de aquello que le sucede, favoreciendo una mayor conciencia sobre sus emociones, pensamientos y formas de relacionarse, para poder construir juntos nuevas maneras de afrontar aquello que genera malestar.</p>
-      </div>
-    </section>
-
-    <section class="contacto" id="contacto">
-      <div class="wrap">
-        <span class="eyebrow">Contacto</span>
-        <h2>Escribime para coordinar una primera consulta</h2>
-        <p class="lede">Contame brevemente qué te trae a terapia y coordinamos un primer encuentro, presencial en San Fernando u online.</p>
-        <div class="contact-actions">
-          <a class="btn btn-solid" href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a>
-          <a class="btn btn-outline" href="mailto:massisa200@gmail.com">massisa200@gmail.com</a>
-        </div>
-        <div class="contact-detail">
-          <span>San Fernando, Zona Norte, Buenos Aires</span>
-          <span>Lic. en Psicología · UCA</span>
-        </div>
       </div>
     </section>
 
@@ -816,6 +800,27 @@
 
   </div>
 
+  <!-- ============ CONTACTO ============ -->
+  <div class="vista" id="vista-contacto">
+
+    <section class="contacto">
+      <div class="wrap">
+        <span class="eyebrow">Contacto</span>
+        <h2>Escribime para coordinar una primera consulta</h2>
+        <p class="lede">Contame brevemente qué te trae a terapia y coordinamos un primer encuentro, presencial en San Fernando u online.</p>
+        <div class="contact-actions">
+          <a class="btn btn-solid" href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a>
+          <a class="btn btn-outline" href="mailto:massisa200@gmail.com">massisa200@gmail.com</a>
+        </div>
+        <div class="contact-detail">
+          <span>San Fernando, Zona Norte, Buenos Aires</span>
+          <span>Lic. en Psicología · UCA</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
 </main>
 
 <footer>
@@ -840,7 +845,7 @@
   var API = '/api/slots';
 
   /* ---------- Navegación por categorías ---------- */
-  var VISTAS = ['inicio','perfil','turnos'];
+  var VISTAS = ['inicio','perfil','turnos','contacto'];
   var vistaActual = 'inicio';
 
   // Solo cambia qué vista se ve; no toca el scroll ni el historial.
@@ -867,23 +872,12 @@
   document.addEventListener('click', function(e){
     var a = e.target.closest('[data-vista]');
     if (!a) return;
-    var destino = a.getAttribute('data-scroll');
-    if (destino) {
-      // Contactame: mostramos Inicio y dejamos que el navegador salte al bloque
-      aplicarVista(a.getAttribute('data-vista'));
-      if (location.hash === '#' + destino) {
-        e.preventDefault();
-        document.getElementById(destino).scrollIntoView({ behavior:'smooth', block:'start' });
-      }
-      return;
-    }
     e.preventDefault();
     mostrar(a.getAttribute('data-vista'), true);
   });
 
   function desdeHash(hash){
-    var id = (hash || '#inicio').slice(1);
-    aplicarVista(id === 'contacto' ? 'inicio' : id);
+    aplicarVista((hash || '#inicio').slice(1));
   }
   window.addEventListener('popstate', function(){ desdeHash(location.hash); });
   desdeHash(location.hash);
