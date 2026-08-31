@@ -330,6 +330,7 @@
     border:1px solid var(--line);
     background:var(--card);
   }
+  .frame picture{ display:block; }
   .frame img{
     width:100%;
     height:auto;
@@ -740,7 +741,10 @@
         <div class="presence">
           <div class="ring-outer" aria-hidden="true"></div>
           <div class="frame">
-            <img src="foto.jpg" alt="Marco Assisa, Licenciado en Psicología" width="900" height="1125">
+            <picture>
+              <source srcset="foto-640.webp" type="image/webp">
+              <img src="foto-640.jpg" alt="Marco Assisa, Licenciado en Psicología" width="640" height="800" fetchpriority="high" decoding="async">
+            </picture>
           </div>
         </div>
       </div>
