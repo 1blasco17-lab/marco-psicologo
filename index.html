@@ -438,6 +438,31 @@
   .clinica-card h3{ margin:8px 0 8px; }
   .clinica-card p{ margin:0; font-size:14.5px; opacity:.88; }
 
+  /* ---------- Copiar el mail ---------- */
+  var aviso = document.createElement('div');
+  aviso.className = 'aviso-copiado';
+  aviso.setAttribute('role', 'status');
+  document.body.appendChild(aviso);
+  var avisoTimer;
+  function mostrarAviso(texto){
+    aviso.textContent = texto;
+    aviso.classList.add('visible');
+    clearTimeout(avisoTimer);
+    avisoTimer = setTimeout(function(){ aviso.classList.remove('visible'); }, 2600);
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('[data-copiar]');
+    if (!a) return;
+    var texto = a.getAttribute('data-copiar');
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(texto)
+        .then(function(){ mostrarAviso('✓ Copiado: ' + texto); })
+        .catch(function(){ mostrarAviso(texto); });
+    } else {
+      mostrarAviso(texto);
+    }
+  });
+
   /* ---------- Turnos ---------- */
   .badges{
     display:grid;
@@ -665,6 +690,27 @@
   }
   .foot-col a:hover{ border-color:var(--paper); }
   .foot-col a:focus-visible{ outline:2px solid var(--ochre); outline-offset:3px; }
+
+  .copiable.copiado{ position:relative; }
+  .aviso-copiado{
+    position:fixed;
+    left:50%;
+    bottom:28px;
+    transform:translateX(-50%) translateY(10px);
+    z-index:90;
+    background:var(--moss-deep);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    padding:12px 20px;
+    border-radius:3px;
+    box-shadow:0 4px 16px rgba(35,40,28,.3);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .aviso-copiado.visible{ opacity:1; transform:translateX(-50%); }
 
   /* ---------- WhatsApp flotante ---------- */
   .wa-float{
@@ -898,7 +944,7 @@
         <p class="lede">Contame brevemente qué te trae a terapia y coordinamos un primer encuentro, presencial en San Fernando u online.</p>
         <div class="contact-actions">
           <a class="btn btn-solid" href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a>
-          <a class="btn btn-outline" href="mailto:massisa200@gmail.com">massisa200@gmail.com</a>
+          <a class="btn btn-outline copiable" href="mailto:massisa200@gmail.com" data-copiar="massisa200@gmail.com" title="Clic para copiar la dirección">massisa200@gmail.com</a>
         </div>
         <div class="contact-detail">
           <span>San Fernando, Zona Norte, Buenos Aires</span>
@@ -920,7 +966,7 @@
     <div class="foot-col">
       <h2 class="foot-tit">Contacto</h2>
       <a href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a><br>
-      <a href="mailto:massisa200@gmail.com">massisa200@gmail.com</a>
+      <a class="copiable" href="mailto:massisa200@gmail.com" data-copiar="massisa200@gmail.com" title="Clic para copiar la dirección">massisa200@gmail.com</a>
     </div>
     <div class="foot-col">
       <h2 class="foot-tit">Dónde atiendo</h2>
