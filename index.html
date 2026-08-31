@@ -1016,16 +1016,34 @@
     clearTimeout(avisoTimer);
     avisoTimer = setTimeout(function(){ aviso.classList.remove('visible'); }, 2600);
   }
+  // Método viejo, por si el navegador no permite la API moderna
+  function copiarLegacy(texto){
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = texto;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, texto.length);
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch (err) { return false; }
+  }
+  function avisarSegun(ok, texto){
+    mostrarAviso(ok ? '✓ Dirección copiada' : 'Copiá la dirección: ' + texto);
+  }
   document.addEventListener('click', function(e){
     var a = e.target.closest('[data-copiar]');
     if (!a) return;
     var texto = a.getAttribute('data-copiar');
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(texto)
-        .then(function(){ mostrarAviso('✓ Copiado: ' + texto); })
-        .catch(function(){ mostrarAviso(texto); });
+        .then(function(){ avisarSegun(true, texto); })
+        .catch(function(){ avisarSegun(copiarLegacy(texto), texto); });
     } else {
-      mostrarAviso(texto);
+      avisarSegun(copiarLegacy(texto), texto);
     }
   });
 
