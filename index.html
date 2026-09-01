@@ -726,9 +726,64 @@
     .dias{ grid-template-columns:1fr; }
     .foot-grid{ grid-template-columns:1fr; gap:28px; }
   }
+  /* ---------- Ajustes de acabado ---------- */
+
+  /* Saltar al contenido: invisible hasta que se navega con Tab */
+  .skip-link{
+    position:absolute;
+    left:16px;
+    top:-60px;
+    z-index:100;
+    background:var(--moss-deep);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    padding:12px 18px;
+    border-radius:2px;
+    text-decoration:none;
+    transition:top .2s ease;
+  }
+  .skip-link:focus{ top:16px; }
+
+  /* Evita palabras sueltas colgando en la última línea */
+  h1, h2, h3, .role, blockquote, .foot-name{ text-wrap:balance; }
+  p, .lede{ text-wrap:pretty; }
+
+  /* Feedback físico al presionar */
+  .btn:active{ transform:translateY(1px) scale(.99); }
+  .nav-cta:active{ transform:translateY(1px); }
+  .hora:active,
+  .dia-btn:active:not(:disabled){ transform:translateY(1px); }
+  .wa-float:active{ transform:scale(.95); }
+  .copiable:active{ opacity:.7; }
+
+  /* Textura de papel: rompe la planitud digital */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:100;
+    pointer-events:none;
+    opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+
+  /* Respeta a quien pidió menos movimiento en su sistema */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+    html{ scroll-behavior:auto; }
+  }
+
 </style>
 </head>
 <body>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
 
 <header class="nav">
   <div class="nav-inner">
@@ -742,7 +797,7 @@
   </div>
 </header>
 
-<main>
+<main id="contenido">
 
   <!-- ============ INICIO ============ -->
   <div class="vista activa" id="vista-inicio">

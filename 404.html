@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página no encontrada — Marco Assisa</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#333d2b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,450;1,9..144,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#23281c; --moss:#48563e; --moss-deep:#333d2b; --ochre:#b3873c;
+    --paper:#efe9dc; --mist:#dcd5c2;
+    --serif:'Fraunces',serif; --sans:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--moss-deep);
+    color:var(--paper);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:32px;
+  }
+  .caja{ max-width:46ch; }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--mist);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--mist); }
+  h1{
+    font-family:var(--serif);
+    font-weight:450;
+    font-size:clamp(30px,5vw,46px);
+    line-height:1.1;
+    margin:18px 0 0;
+    text-wrap:balance;
+  }
+  p{ margin:18px 0 0; opacity:.85; text-wrap:pretty; }
+  .acciones{ display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:2px;
+    border:1px solid transparent;
+    transition:transform .18s ease, background .2s ease, color .2s ease;
+  }
+  .btn-solid{ background:var(--paper); color:var(--moss-deep); }
+  .btn-solid:hover{ background:var(--mist); transform:translateY(-1px); }
+  .btn-outline{ color:var(--paper); border-color:rgba(239,233,220,.5); }
+  .btn-outline:hover{ background:var(--paper); color:var(--moss-deep); transform:translateY(-1px); }
+  .btn:active{ transform:translateY(1px) scale(.99); }
+  .btn:focus-visible{ outline:2px solid var(--ochre); outline-offset:3px; }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition-duration:.01ms !important; }
+  }
+</style>
+</head>
+<body>
+  <main class="caja">
+    <span class="eyebrow">Error 404</span>
+    <h1>Esta página no existe</h1>
+    <p>Puede que el enlace esté desactualizado o que haya un error en la dirección. Volvé al inicio o escribime y lo resolvemos.</p>
+    <div class="acciones">
+      <a class="btn btn-solid" href="/">Ir al inicio</a>
+      <a class="btn btn-outline" href="/#turnos">Ver turnos</a>
+    </div>
+  </main>
+</body>
+</html>
