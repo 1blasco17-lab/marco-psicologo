@@ -1082,6 +1082,22 @@
   function avisarSegun(ok, texto){
     mostrarAviso(ok ? '✓ Dirección copiada' : 'Copiá la dirección: ' + texto);
   }
+  // En computadora muchos no tienen cliente de correo configurado y el mailto no
+  // hace nada: abrimos el redactor de Gmail. En celular dejamos el mailto, que
+  // abre la app de correo (Gmail incluido) con el mensaje ya cargado.
+  function abrirGmail(mailto){
+    try {
+      var u = new URL(mailto);
+      var url = 'https://mail.google.com/mail/?view=cm&fs=1' +
+        '&to=' + encodeURIComponent(u.pathname) +
+        '&su=' + encodeURIComponent(u.searchParams.get('subject') || '') +
+        '&body=' + encodeURIComponent(u.searchParams.get('body') || '');
+      var w = window.open(url, '_blank', 'noopener');
+      if (!w) window.location.href = mailto;   // si el navegador bloquea la ventana
+      return true;
+    } catch (err) { return false; }
+  }
+
   document.addEventListener('click', function(e){
     var a = e.target.closest('[data-copiar]');
     if (!a) return;
@@ -1092,6 +1108,11 @@
         .catch(function(){ avisarSegun(copiarLegacy(texto), texto); });
     } else {
       avisarSegun(copiarLegacy(texto), texto);
+    }
+    var enCelular = window.matchMedia('(pointer: coarse)').matches;
+    var href = a.getAttribute('href') || '';
+    if (!enCelular && href.indexOf('mailto:') === 0) {
+      if (abrirGmail(href)) e.preventDefault();
     }
   });
 
