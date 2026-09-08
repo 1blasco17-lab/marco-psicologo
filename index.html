@@ -132,6 +132,9 @@
   html{ scroll-behavior:smooth; }
   body{
     margin:0;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
     background:var(--paper);
     color:var(--ink);
     font-family:var(--sans);
@@ -409,19 +412,6 @@
     padding-top:3px;
   }
   .tl-item p{ margin:4px 0 0; font-size:14.5px; opacity:.85; }
-  .tag-curso{
-    display:inline-block;
-    font-family:var(--mono);
-    font-size:9.5px;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    color:var(--ochre);
-    border:1px solid var(--ochre);
-    border-radius:2px;
-    padding:2px 7px;
-    margin-left:10px;
-    vertical-align:middle;
-  }
 
   /* ---------- Práctica ---------- */
   .clinica-grid{
@@ -615,7 +605,9 @@
     color:var(--moss);
   }
 
+  main{ flex:1 0 auto; }
   footer{
+    flex-shrink:0;
     padding:48px 0 44px;
     background:var(--moss-deep);
     color:var(--mist);
@@ -896,14 +888,14 @@
           <div class="tl-item">
             <span class="tl-date">En curso</span>
             <div>
-              <h3>Curso de Formación en Psicoterapia<span class="tag-curso">Cursando</span></h3>
+              <h3>Curso de Formación en Psicoterapia</h3>
               <p>SENS</p>
             </div>
           </div>
           <div class="tl-item">
             <span class="tl-date">En curso</span>
             <div>
-              <h3>Posgrado en Neurociencias y Psicoterapias Contemporáneas<span class="tag-curso">Cursando</span></h3>
+              <h3>Posgrado en Neurociencias y Psicoterapias Contemporáneas</h3>
               <p>CISMA</p>
             </div>
           </div>
@@ -975,7 +967,7 @@
         <p class="lede">Contame brevemente qué te trae a terapia y coordinamos un primer encuentro, presencial en San Fernando u online.</p>
         <div class="contact-actions">
           <a class="btn btn-solid" href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a>
-          <a class="btn btn-outline copiable" href="mailto:massisa200@gmail.com" data-copiar="massisa200@gmail.com" title="Clic para copiar la dirección">massisa200@gmail.com</a>
+          <a class="btn btn-outline copiable" href="mailto:massisa200@gmail.com?subject=Consulta%20para%20coordinar%20una%20primera%20sesi%C3%B3n&body=Hola%20Marco%2C%20%C2%BFc%C3%B3mo%20est%C3%A1s%3F%0A%0AMe%20gustar%C3%ADa%20coordinar%20una%20primera%20consulta.%0A%0AMi%20nombre%3A%0AQu%C3%A9%20me%20trae%20a%20terapia%20(contalo%20con%20tus%20palabras)%3A%0A%0AModalidad%20que%20prefiero%3A%20presencial%20en%20San%20Fernando%20%2F%20online%0AD%C3%ADas%20y%20horarios%20que%20me%20quedan%20c%C3%B3modos%3A%0A%0AGracias." data-copiar="massisa200@gmail.com" title="Clic para copiar la dirección">massisa200@gmail.com</a>
         </div>
         <div class="contact-detail">
           <span>San Fernando, Zona Norte, Buenos Aires</span>
@@ -997,7 +989,7 @@
     <div class="foot-col">
       <h2 class="foot-tit">Contacto</h2>
       <a href="https://wa.me/5491162468808" target="_blank" rel="noopener">WhatsApp · 11 6246-8808</a><br>
-      <a class="copiable" href="mailto:massisa200@gmail.com" data-copiar="massisa200@gmail.com" title="Clic para copiar la dirección">massisa200@gmail.com</a>
+      <a class="copiable" href="mailto:massisa200@gmail.com?subject=Consulta%20para%20coordinar%20una%20primera%20sesi%C3%B3n&body=Hola%20Marco%2C%20%C2%BFc%C3%B3mo%20est%C3%A1s%3F%0A%0AMe%20gustar%C3%ADa%20coordinar%20una%20primera%20consulta.%0A%0AMi%20nombre%3A%0AQu%C3%A9%20me%20trae%20a%20terapia%20(contalo%20con%20tus%20palabras)%3A%0A%0AModalidad%20que%20prefiero%3A%20presencial%20en%20San%20Fernando%20%2F%20online%0AD%C3%ADas%20y%20horarios%20que%20me%20quedan%20c%C3%B3modos%3A%0A%0AGracias." data-copiar="massisa200@gmail.com" title="Clic para copiar la dirección">massisa200@gmail.com</a>
     </div>
     <div class="foot-col">
       <h2 class="foot-tit">Dónde atiendo</h2>
